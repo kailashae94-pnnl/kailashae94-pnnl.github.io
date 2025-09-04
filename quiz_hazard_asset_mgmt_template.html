@@ -1,0 +1,371 @@
+{
+    id: "example-asset-data.json",
+    modules: {
+      asset: {
+        request: function (args) {
+          console.log("Asset management request function args:", args);
+  
+          const { tourConfig, moduleConfig, poiConfig, poi, login } = args;
+          const asset = poi.assetManagementInfo;
+  
+          return [
+            {
+              request: {
+                url: `${tourConfig.rootUrl}/WD91226`,
+                result: "json",
+                options: {
+                  mode: "cors",
+                  credentials: "include",
+                  headers: {
+                    
+                  },
+                },
+            
+              },
+            }
+          ];
+        },
+        template: function(args) {
+          const { tourConfig, moduleConfig, poiConfig, poi, login } = args;
+          const {hazard_header, hazard_sub_header, hazard_desc, key_points, hdi_link, quiz_options} = poiConfig;
+          /**
+           * @param {{title: string, body: string}[]} tabs
+           */
+
+          function pageInit() {
+            if(!quiz_options) {
+              return generatePageContent();
+            } else {
+              return generateQuizPage();
+            }
+          }
+
+          function generateQuizPage() {
+            console.log("Tesat");
+            const button2 = document.createElement('button');
+    
+            // Set the button text
+            button2.textContent = 'Woah!';
+            
+            // Add an event listener to change the background color on click
+            button2.addEventListener('click', function() {
+                this.style.backgroundColor = 'lightblue';
+                console.log("CLICKED!")
+            });
+            
+            // Append the button to the body
+            //document.body.appendChild(button2);
+            //var parent_poi = document.getElementById('poi-wcaPoRN5mqLff7VXj5vEy5');
+            var parent_poi = document.body.benaco-viewer-body.benaco-viewer.scene-viewable.editor-open
+            if(parent_poi) {
+              let elements = document.getElementsByClassName('test');
+
+              // Access the first element
+              let firstElement = elements[0];
+              console.log(elements.length);
+              parent_poi.appendChild(button2);
+            } else {
+              console.log("POI not found :/");
+            }
+            
+            button2.click();
+            return `
+            <script>
+              function changeColor() {
+                alert("Hello, world! This is printed to the console.");
+                const button = document.getElementById('poi-wcaPoRN5mqLff7VXj5vEy5');
+                button.style.backgroundColor = 'lightblue'; // Change to any color you like
+              }
+            </script>
+              <div> 
+                <button id="test_btn" onclick="changeColor()">Press Me!</button>
+              </div>
+            `;
+          }
+          function buttonEvent() {
+            const button = document.getElementById('test_btn');
+            button.style.backgroundColor = 'lightblue';
+          }
+
+          function generatePageContent() {
+              return `
+  <div class="hazard_header">
+    <h1>${hazard_header}</h1>
+  </div>
+  <div class="hazard_info">
+    <h3>${hazard_sub_header}</h3>
+    <blockquote>${hazard_desc}</blockquote>
+  </div>
+  <div class="hdi">
+    ${makeHDILink(hdi_link)}
+  </div>
+  <div class="key_points">
+    <h3>Safety Tips:</h3>
+    <ul>${makeKeyPointsList(key_points)}</ul>
+  </div>
+
+  <footer style="background-color: rgba(247, 247, 247, 0.2); margin: 0; padding: 0.5em 1em; color: #F7F7F7; border-radius: 0;">See more at  <a href="https://pnnl.sharepoint.com/sites/Safety/SitePages/We-are-Safe.aspx?q_scout=WE%20are%20Safe" style="color: rgba(224, 189, 153, 1); font-weight: 700;"> <img class="filetype-icon" style="filter: invert(90%) sepia(7%) saturate(2015%) hue-rotate(327deg) brightness(91%) contrast(92%);" src="https://api.pnl.gov/it/theme-core/v1/svg-icons/link?iconDisplay=solid" alt="pdf-icon">WE are Safe</a></footer>
+  <style>
+
+  .hazard_header h1{
+    margin: 1rem 0;
+    font-size: 24px;
+  }
+
+  .hazard_header {
+    justify-self: center;
+  }
+
+
+  .hazard_info h3{
+    padding-left: 0.5rem;
+    font-size: 18px;
+    margin-bottom: 0.75rem;
+  }
+
+  blockquote {
+    margin:0rem 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .key_points {
+    margin-bottom: 2rem;
+  }
+
+  .key_points h3 {
+    padding-left: 0.5rem;
+    font-size: 18px;
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .key_points li {
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .tabbed { overflow-x: hidden; }
+  .tabbed [type="radio"] { display: none; }
+  /* .tabbed:not(:checked) {
+    border-top: 3px solid rgba(232, 232, 232, 0.2);
+  } */
+  .tab-content { display: none; }
+  .tabs {
+    display: flex;
+    align-items:center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.1em;
+    background-color: rgba(232, 232, 232, 0.2);
+  }
+
+  .tab > label {
+    display: block;
+    margin-bottom: -1px;
+    padding: .5em .6em;
+    background: rgba(232, 232, 232, 0.1);
+  }
+  .tab:hover > label {
+    background: #444;
+    cursor: pointer;
+  }
+  
+  /* Tab content spacing */
+  .user-css .card-body {
+    padding: 0 !important;
+    background-color: rgba(0, 0, 0, 0.40);
+  }
+  .tab-content {
+    padding: 16px;
+    user-select: text; /* make contents selectable */
+  }
+  
+  footer {
+    margin: 0;
+    padding: 0;
+    background-color: #843910;
+  }
+
+  footer img {
+    width: 1rem;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Metropolis:wght@400;700&display=swap');
+
+.table_key {
+  font-family: 'Metropolis', sans-serif;
+  font-weight: 500;
+  font-size: 1.1em;
+  color: #F7F7F7;
+  width: 30%;
+  padding: 5px;
+}
+
+  p {
+      font-family: 'Metropolis', sans-serif;
+  }
+
+td {
+  padding: 0 15px;
+}
+th {
+  padding: 0 15px;
+}
+
+
+.user-css .hazard_header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1em;
+}
+
+.user-css .hazard_header h1 {
+  font-family: 'Metropolis', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  display: inline;
+}
+
+.hazard_header > span {
+  display: block;
+  margin: 1em;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    margin-top: 1em;
+    margin-bottom: 3em;
+    padding: 0;
+}
+.image-column {
+    width: 25%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.content-column {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.text-row {
+  display: flex;
+  height: 50%;
+  align-items: flex-start;
+}
+
+.button-row {
+  display: flex;
+  height: 50%;
+  align-items:flex-end;
+}
+
+.text-row h1{
+    padding: 0px;
+    height: 50%;
+    font-size: 2em;
+    vertical-align: bottom;
+    margin: 0;
+}
+.button-row .file-links {
+    padding: 0px;
+    margin: 0;
+}
+
+.hdi {
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.user-css a.hdi-link {
+  font-family: 'Metropolis', sans-serif;
+  text-decoration: none;
+  margin-left: 0.5rem;
+  
+  background-color: rgba(232, 232, 232, 0.2);
+  padding: 8px 15px;
+  color: rgba(202, 202, 202, 1);
+  font-weight: 500;
+  font-size: 1.1em;
+  border-radius: 5px;
+}
+
+img.filetype-icon {
+  height: 2ex;
+  filter: invert(100%);
+}
+  
+  </style>
+  `;
+          }
+
+          function makeKeyPointsList(str) {
+            var sentences = str.split(".");
+            var liElementsHTML = sentences.map(sentence => {
+                if (sentence.trim() != '') {
+                  return "<li>" + sentence.trim() + "</li>";
+                }
+              });
+
+              var liElementsHTMLJoined = liElementsHTML.join("");
+            
+              //var ulHTML = "<ul>" + liElementsHTMLJoined + "</ul>";
+              return liElementsHTMLJoined;
+            
+          }
+
+          //Adds the optional HDI section. Leave hdi_link blank to exclude this section
+          function makeHDILink(hdi_link) {
+            if(hdi_link == "") {
+                return "";
+            }
+            var btn = `
+            <div class="button-row">
+                <div class="file-links">
+                  <a class="hdi-link" href=${hdi_link}>
+                    <img class="filetype-icon" src="https://api.pnl.gov/it/theme-core/v1/svg-icons/link?iconDisplay=outline" alt="pdf-icon" />
+                    View Associated HDI Page
+                  </a>
+                </div>
+              </div>
+            `;
+            return btn;            
+          }
+  
+          const [response] = args.responses;
+
+          function toLower(content, single_cap) {
+            let str = content.toLowerCase();
+            if(single_cap) {
+              return str.charAt(0).toUpperCase() + str.slice(1);
+            } else {
+              let split = str.split(" ");
+              let ret = ""
+              split.forEach(word => {
+                ret += (word.charAt(0).toUpperCase() + word.slice(1) + " ");
+              });
+              return ret;
+            }
+          }
+          
+          return {
+            title: "Hazard Identification Alert",
+            body: {
+              tag: "html",
+              content: pageInit(),
+            },
+          };
+        },
+        version: "v1.1",
+      },
+    },
+    rootUrl: "https://assets.pnnl.gov/api/V1/Property",
+    version: "v1.1",
+  }
